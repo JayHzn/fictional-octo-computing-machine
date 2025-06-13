@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "791631137491",
+    "project_id": "amblyopie",
+    "storage_bucket": "amblyopie.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791631137491:android:8d26b7e4ed303297a1a226",
+        "android_client_info": {
+          "package_name": "com.example.amblyopie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaeXx_OLSJH2yu5_RLeUKXW1aX0oYsNHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
