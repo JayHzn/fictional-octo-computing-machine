@@ -66,7 +66,13 @@ class _RegisterPageState extends State<RegisterPage> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _register,
-              child: const Text('S\'inscrire')),
+              child: const Text('S\'inscrire')
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+              child: const Text("Déjà un compte ? Connectez-vous"),
+            ),
           ],
         ),
       ),

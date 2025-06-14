@@ -1,5 +1,7 @@
 import 'package:amblyopie/firebase_options.dart';
+import 'package:amblyopie/pages/auth/login_page.dart';
 import 'package:amblyopie/pages/auth/register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -20,11 +22,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Amblyopie',
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return snap.data == null
+            ? const LoginPage()
+            : const MyHomePage(title: 'Home');
+        },
+      ),
       routes: {
+        '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/home': (context) => const MyHomePage(title: 'Home'),
       },
-      initialRoute: '/register',
+      initialRoute: FirebaseAuth.instance.currentUser == null
+      ? '/login'
+      : '/home',
     );
   }
 }
