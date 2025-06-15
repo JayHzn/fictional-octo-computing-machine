@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
         });
       
       if(context.mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/createProfile');
       }
   } on FirebaseAuthException catch (e) {
     setState(() => _error = '[Auth:${e.code}] ${e.message}');
