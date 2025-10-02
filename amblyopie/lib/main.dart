@@ -3,16 +3,31 @@ import 'package:amblyopie/pages/auth/login_page.dart';
 import 'package:amblyopie/pages/auth/register_page.dart';
 import 'package:amblyopie/pages/onboarding/onboarding_page.dart';
 import 'package:amblyopie/pages/profile/create_profile_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+
+Future<void> safeInitFirebase() async {
+  try {
+    if (Firebase.apps.isNotEmpty) {
+      return;
+    }
+
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+  } on FirebaseException catch (e) {
+      if (e.code == 'duplicate-app') {
+        Firebase.app();
+      } else {
+        rethrow;
+      }
+    }
+  }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await safeInitFirebase();
   runApp(const MyApp());
 }
 
@@ -24,17 +39,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Amblyopie',
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, snap) {
-          if (snap.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return snap.data == null
-            ? const LoginPage()
-            : const MyHomePage(title: 'Home');
-        },
-      ),
       routes: {
         '/onboarding': (context) => const OnboardingPage(),
         '/login': (context) => const LoginPage(),
