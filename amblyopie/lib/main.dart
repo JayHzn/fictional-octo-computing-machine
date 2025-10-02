@@ -3,7 +3,7 @@ import 'package:amblyopie/pages/auth/login_page.dart';
 import 'package:amblyopie/pages/auth/register_page.dart';
 import 'package:amblyopie/pages/onboarding/onboarding_page.dart';
 import 'package:amblyopie/pages/profile/create_profile_page.dart';
-import 'package:amblyopie/pages/home/home_page.dart';
+import 'package:amblyopie/pages/home/home_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -31,7 +31,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await safeInitFirebase();
   await initializeDateFormatting('fr_FR', null);
-  
   runApp(const MyApp());
 }
 
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/onboarding': (context) => const OnboardingPage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const HomeShell(),
         '/createProfile' : (context) => CreateProfilePage(),
       },
       initialRoute: 

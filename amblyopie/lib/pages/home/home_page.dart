@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accueil'),
+        title: const Text(''),
         centerTitle: false,
       ),
       body: SafeArea(
