@@ -5,6 +5,7 @@ import 'package:amblyopie/models/child.dart';
 import 'package:amblyopie/models/appointment.dart';
 import 'package:amblyopie/widgets/child_header_card.dart';
 import 'package:amblyopie/widgets/weekly_bar_chart.dart';
+import 'package:amblyopie/widgets/appointment_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,14 +43,14 @@ class _HomePageState extends State<HomePage> {
         id: 'a1',
         childId: 'c1',
         title: 'Suivi ophtalmologique',
-        date: DateTime.now().add(Duration(days: 1, hours: 2)),
+        date: DateTime(2025, 10, 15, 14, 30),
         location: 'Cabinet Dr. Dupuis',
       ),
       Appointment(
         id: 'a2',
         childId: 'c2',
         title: 'Contrôle',
-        date: DateTime.now().add(Duration(days: 1, hours: 1, minutes: 30)),
+        date: DateTime(2025, 10, 9, 10, 0),
         location: 'Clinique des Enfants',
       ),
     ];
@@ -182,31 +183,22 @@ class _HomePageState extends State<HomePage> {
                 ),
               )
             else
-              Card(
-                elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _currentAppointments.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (_, i) {
-                    final a = _currentAppointments[i];
-                    return ListTile(
-                      leading: const Icon(Icons.event),
-                      title: Text(a.title),
-                      subtitle: Text(
-                        DateFormat('EEE d MMM • HH:mm', 'fr_FR').format(a.date) +
-                            (a.location != null ? ' • ${a.location}' : ''),
+              Column(
+                children: [
+                  for (int i = 0; i < _currentAppointments.length; i++)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: AppointmentCard(
+                        appointment: _currentAppointments[i],
+                        color: i.isEven
+                            ? const Color(0xFFF58F5D)
+                            : const Color(0xFF8FB4E3),
+                        onTap: () {
+                          
+                        },
                       ),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        
-                      },
-                    );
-                  },
-                ),
+                    ),
+                ],
               ),
 
             const SizedBox(height: 24),

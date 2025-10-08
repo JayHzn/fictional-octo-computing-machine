@@ -37,10 +37,34 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  final peach = const Color(0xFFFBE1C5);
+  final orange = const Color(0xFFF58F5D);
+  final blue = const Color(0xFF8FB4E3);
+  final ink = const Color(0xFF2F2A24);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: orange,
+          background: peach,
+          surface: Colors.white,
+          primary: orange,
+          secondary: blue,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onBackground: ink,
+          onSurface: ink.withOpacity(0.9),
+        ),
+        scaffoldBackgroundColor: peach,
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(fontWeight: FontWeight.w800),
+          bodyMedium: TextStyle(height: 1.25),
+        ),
+      ),
       title: 'Amblyopie',
       routes: {
         '/onboarding': (context) => const OnboardingPage(),
