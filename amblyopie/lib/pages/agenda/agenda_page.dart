@@ -50,6 +50,10 @@ class _AgendaPageState extends State<AgendaPage> {
 
   String? _locationOf(Appointment a) => a.location;
 
+  List<Appointment> _eventLoader(DateTime day) {
+    return _eventsByDay[_dayKey(day)] ?? [];
+  }
+
   Map<DateTime, List<Appointment>> _buildEventsByDay() {
     final map = <DateTime, List<Appointment>>{};
     for (final appt in widget.appointments) {
@@ -281,7 +285,7 @@ class _AppointmentsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (appointments.idEmpty) {
+    if (appointments.isEmpty) {
       return const _EmptyState(message: 'Aucun rendez-vous ce jour.');
     }
 

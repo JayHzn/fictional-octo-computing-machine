@@ -2,10 +2,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:amblyopie/pages/home/home_page.dart';
-// import 'package:amblyopie/pages/agenda/agenda_page.dart';
+import 'package:amblyopie/pages/agenda/agenda_page.dart';
 // import 'package:amblyopie/pages/children/children_page.dart';
 // import 'package:amblyopie/pages/notifications/notifications_page.dart';
 // import 'package:amblyopie/pages/profile/profile_page.dart';
+
+import 'package:amblyopie/models/appointment.dart';
+import 'package:amblyopie/models/child.dart';
 
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
@@ -18,17 +21,48 @@ class _HomeShellState extends State<HomeShell> {
   final _pageController = PageController();
   int _currentIndex = 0;
 
-  final _pages = const [
-    _KeepAlive(child: HomePage()),
-    _KeepAlive(child: AgendaPage()),
-    _KeepAlive(child: ChildrenPage()),
-    _KeepAlive(child: NotificationsPage()),
-    _KeepAlive(child: ProfilePage()),
-  ];
+  late List<Child> _children;
+  late List<Appointment> _appointments;
 
   static const double _navH = 64;
   static const double _navHPad = 12;
   static const double _navBPad = 2;
+
+  // En attendant de lier la BDD
+  @override
+  void initState() {
+    super.initState();
+
+        _children = [
+      Child(
+        id: 'c1',
+        firstName: 'Lina',
+        birthDate: DateTime(2018, 5, 20),
+      ),
+      Child(
+        id: 'c2',
+        firstName: 'Noah',
+        birthDate: DateTime(2017, 10, 3),
+      ),
+    ];
+
+    _appointments = [
+      Appointment(
+        id: 'a1',
+        childId: 'c1',
+        title: 'Suivi ophtalmologique',
+        date: DateTime(2025, 10, 15, 14, 30),
+        location: 'Cabinet Dr. Dupuis',
+      ),
+      Appointment(
+        id: 'a2',
+        childId: 'c2',
+        title: 'Contrôle',
+        date: DateTime(2025, 10, 9, 10, 0),
+        location: 'Clinique des Enfants',
+      ),
+    ];
+  }
 
   @override
   void dispose() {
@@ -49,6 +83,14 @@ class _HomeShellState extends State<HomeShell> {
   @override
   Widget build(BuildContext context) {
     final reservedBottom = _navH + _navBPad;
+
+    final _pages = [
+      const _KeepAlive(child: HomePage()),
+      _KeepAlive(child: AgendaPage(children: _children, appointments: _appointments)),
+      const _KeepAlive(child: ChildrenPage()),
+      const _KeepAlive(child: NotificationsPage()),
+      const _KeepAlive(child: ProfilePage()),
+    ];
 
     return Scaffold(
       extendBody: true,
@@ -140,14 +182,6 @@ class _KeepAliveState extends State<_KeepAlive>
     super.build(context);
     return widget.child;
   }
-}
-
-class AgendaPage extends StatelessWidget {
-  const AgendaPage({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Agenda')),
-      );
 }
 
 class ChildrenPage extends StatelessWidget {
