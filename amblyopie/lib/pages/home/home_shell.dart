@@ -33,7 +33,7 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
 
-        _children = [
+      _children = [
       Child(
         id: 'c1',
         firstName: 'Lina',
@@ -125,30 +125,30 @@ class _HomeShellState extends State<HomeShell> {
                       height: _navH,
                       selectedIndex: _currentIndex,
                       onDestinationSelected: _onTapNav,
-                      destinations: const [
+                      destinations: [
                         NavigationDestination(
-                          icon: Icon(Icons.home_outlined),
-                          selectedIcon: Icon(Icons.home),
+                          icon: Image.asset('assets/logo/logo_graph.png', height: 32),
+                          //selectedIcon: Icon(Icons.home),
                           label: 'Accueil',
                         ),
                         NavigationDestination(
-                          icon: Icon(Icons.event_note_outlined),
-                          selectedIcon: Icon(Icons.event_note),
+                          icon: Image.asset('assets/logo/logo_agenda.png', height: 32),
+                          //selectedIcon: Icon(Icons.event_note),
                           label: 'Agenda',
                         ),
                         NavigationDestination(
-                          icon: Icon(Icons.family_restroom_outlined),
-                          selectedIcon: Icon(Icons.family_restroom),
-                          label: 'Enfants',
+                          icon: Image.asset('assets/logo/logo_guide.png', height: 32),
+                          //selectedIcon: Icon(Icons.book),
+                          label: 'Guide',
                         ),
                         NavigationDestination(
-                          icon: Icon(Icons.notifications_none),
-                          selectedIcon: Icon(Icons.notifications),
+                          icon: Image.asset('assets/logo/logo_question.png', height: 32),
+                          //selectedIcon: Icon(Icons.notifications),
                           label: 'Notif',
                         ),
                         NavigationDestination(
-                          icon: Icon(Icons.person_outline),
-                          selectedIcon: Icon(Icons.person),
+                          icon: Image.asset('assets/logo/logo_profile.png', height: 32),
+                          //selectedIcon: Icon(Icons.person),
                           label: 'Profil',
                         ),
                       ],
@@ -188,7 +188,7 @@ class ChildrenPage extends StatelessWidget {
   const ChildrenPage({super.key});
   @override
   Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Enfants')),
+        body: Center(child: Text('Guide')),
       );
 }
 

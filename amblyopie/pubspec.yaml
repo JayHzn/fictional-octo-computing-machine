@@ -43,6 +43,9 @@ dependencies:
   fl_chart: ^1.1.1
   intl: ^0.20.2
   table_calendar: ^3.2.0
+  get: ^4.7.2
+  flutter_local_notifications: ^19.5.0
+  firebase_messaging: ^15.2.10
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +77,12 @@ flutter:
   - assets/onboarding1.png
   - assets/onboarding2.png
   - assets/onboarding3.png
+  - assets/logo/logo_graph.png
+  - assets/logo/logo_guide.png
+  - assets/logo/logo_agenda.png
+  - assets/logo/logo_param.png
+  - assets/logo/logo_profile.png
+  - assets/logo/logo_question.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
