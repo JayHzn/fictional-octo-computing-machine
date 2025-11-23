@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:amblyopie/pages/home/home_page.dart';
 import 'package:amblyopie/pages/agenda/agenda_page.dart';
-// import 'package:amblyopie/pages/children/children_page.dart';
+import 'package:amblyopie/pages/guide/guide_page.dart';
 // import 'package:amblyopie/pages/notifications/notifications_page.dart';
 // import 'package:amblyopie/pages/profile/profile_page.dart';
 
@@ -87,7 +87,7 @@ class _HomeShellState extends State<HomeShell> {
     final _pages = [
       const _KeepAlive(child: HomePage()),
       _KeepAlive(child: AgendaPage(children: _children, appointments: _appointments)),
-      const _KeepAlive(child: ChildrenPage()),
+      const _KeepAlive(child: GuidePage()),
       const _KeepAlive(child: NotificationsPage()),
       const _KeepAlive(child: ProfilePage()),
     ];
@@ -182,14 +182,6 @@ class _KeepAliveState extends State<_KeepAlive>
     super.build(context);
     return widget.child;
   }
-}
-
-class ChildrenPage extends StatelessWidget {
-  const ChildrenPage({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Guide')),
-      );
 }
 
 class NotificationsPage extends StatelessWidget {
