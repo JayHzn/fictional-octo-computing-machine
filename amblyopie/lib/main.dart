@@ -6,6 +6,7 @@ import 'package:amblyopie/pages/profile/create_profile_page.dart';
 import 'package:amblyopie/pages/home/home_shell.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -16,7 +17,17 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  final notif = message.notification;
+  if (notif != null) {
+    await _showLocal(
+      title: notif.title ?? 'Notification',
+      body: notif.body ?? '',
+    );
+  }
+
+  print('Message reçu en arrière-plan: ${message.messageId}');
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -25,10 +36,49 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 final GlobalKey<NavigatorState> navigatorKey =
     GlobalKey<NavigatorState>();
 
+Future<void> _showLocal({
+  required String title,
+  required String body,
+}) async {
+  if (kIsWeb) return;
+
+  const details = NotificationDetails(
+    android: AndroidNotificationDetails(
+      'amblyopie_channel',
+      'Amblyopie',
+      channelDescription: 'Rappels et notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+    ),
+    iOS: DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    ),
+  );
+
+  final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+  await flutterLocalNotificationsPlugin.show(
+    id,
+    title,
+    body,
+    details,
+  );
+}
+
 Future<void> _initLocalNotifications() async {
+  if (kIsWeb) return;
+
   const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const iosInit = DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
   const initSettings = InitializationSettings(
     android: androidInit,
+    iOS: iosInit,
   );
 
   await flutterLocalNotificationsPlugin.initialize(
@@ -55,29 +105,6 @@ Future<void> _initLocalNotifications() async {
   await android?.requestNotificationsPermission();
 }
 
-Future<void> _showLocal({
-  required String title,
-  required String body,
-}) async {
-  const details = NotificationDetails(
-    android: AndroidNotificationDetails(
-      'amblyopie_channel',
-      'Amblyopie',
-      channelDescription: 'Rappels et notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-    ),
-  );
-
-  final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-  await flutterLocalNotificationsPlugin.show(
-    id,
-    title,
-    body,
-    details,
-  );
-}
-
 Future<void> safeInitFirebase() async {
   try {
     if (Firebase.apps.isEmpty) {
@@ -86,8 +113,19 @@ Future<void> safeInitFirebase() async {
       );
     }
 
+    if (kIsWeb) {
+      print('Firebase Messaging non configuré sur le web');
+      return;
+    }
+
     final messaging = FirebaseMessaging.instance;
-    await messaging.requestPermission();
+
+    await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+      provisional: false,
+    );
 
     final token = await messaging.getToken();
     print('Firebase Messaging Token: $token');
@@ -123,9 +161,11 @@ Future<void> main() async {
   await _initLocalNotifications();
   await safeInitFirebase();
   await initializeDateFormatting('fr_FR', null);
-  runApp(const MyApp());
 
   final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+
+  runApp(MyApp(initialMessage: initialMessage));
+
   if (initialMessage != null) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       navigatorKey.currentState?.pushNamedAndRemoveUntil('/home', (route) => false);
@@ -134,7 +174,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final RemoteMessage? initialMessage;
+
+  const MyApp({super.key, this.initialMessage});
 
   final peach = const Color(0xFFFBE1C5);
   final orange = const Color(0xFFF58F5D);
@@ -174,7 +216,7 @@ class MyApp extends StatelessWidget {
         '/createProfile' : (context) => CreateProfilePage(),
       },
       initialRoute: 
-        '/onboarding',
+        initialMessage != null ? '/home' : '/onboarding',
     );
   }
 }

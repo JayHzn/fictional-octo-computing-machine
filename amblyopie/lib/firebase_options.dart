@@ -37,7 +37,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '791631137491',
     projectId: 'amblyopie',
     authDomain: 'amblyopie.firebaseapp.com',
-    storageBucket: 'amblyopie.appspot.com',
+    storageBucket: 'amblyopie.firebasestorage.app',
     measurementId: 'G-GENV6XW1C4',
   );
 
@@ -46,7 +46,7 @@ class DefaultFirebaseOptions {
     appId: '1:791631137491:android:8d26b7e4ed303297a1a226',
     messagingSenderId: '791631137491',
     projectId: 'amblyopie',
-    storageBucket: 'amblyopie.appspot.com',
+    storageBucket: 'amblyopie.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:791631137491:ios:a9ab07404355659fa1a226',
     messagingSenderId: '791631137491',
     projectId: 'amblyopie',
-    storageBucket: 'amblyopie.appspot.com',
+    storageBucket: 'amblyopie.firebasestorage.app',
     iosBundleId: 'com.example.amblyopie',
   );
 
@@ -63,7 +63,7 @@ class DefaultFirebaseOptions {
     appId: '1:791631137491:ios:a9ab07404355659fa1a226',
     messagingSenderId: '791631137491',
     projectId: 'amblyopie',
-    storageBucket: 'amblyopie.appspot.com',
+    storageBucket: 'amblyopie.firebasestorage.app',
     iosBundleId: 'com.example.amblyopie',
   );
 
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '791631137491',
     projectId: 'amblyopie',
     authDomain: 'amblyopie.firebaseapp.com',
-    storageBucket: 'amblyopie.appspot.com',
+    storageBucket: 'amblyopie.firebasestorage.app',
     measurementId: 'G-86255EHNMJ',
   );
 
